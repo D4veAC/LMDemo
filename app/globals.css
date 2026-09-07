@@ -290,7 +290,7 @@ main {
 .lead-table th:first-child,
 .lead-table td:first-child {
   padding-left: 24px;
-  width: 137px;
+  width: 165px;
 }
 .lead-table th:nth-child(2) {
   width: 121px;
@@ -299,7 +299,7 @@ main {
   width: 109px;
 }
 .lead-table td {
-  height: 57px;
+  height: 62px;
   border-top: 1px solid var(--border-subtle);
   padding: 8px;
   white-space: normal;
@@ -318,7 +318,23 @@ main {
   background: none;
   border: 0;
   padding: 3px 0;
-  white-space: nowrap;
+  white-space: normal;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.lead-link small {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.detail-id {
+  display: block;
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 1px;
 }
 .selected .lead-link {
   color: var(--text-secondary);
@@ -635,7 +651,7 @@ footer > span:last-child {
   .lead-table th:first-child,
   .lead-table td:first-child {
     padding-left: 12px;
-    width: 122px;
+    width: 155px;
   }
   .lead-table th:nth-child(2) {
     width: 110px;
@@ -664,7 +680,7 @@ footer > span:last-child {
     grid-row: 2;
   }
   .lead-table th:first-child {
-    width: 25%;
+    width: 30%;
   }
   .lead-table th:nth-child(2),
   .lead-table th:nth-child(3) {
@@ -739,7 +755,7 @@ footer > span:last-child {
   .lead-table th:first-child,
   .lead-table td:first-child {
     padding-left: 10px;
-    width: 25%;
+    width: 30%;
   }
   .lead-table th:nth-child(2),
   .lead-table th:nth-child(3) {
@@ -767,7 +783,7 @@ footer > span:last-child {
     margin: 14px 0 12px;
   }
   .lead-table td {
-    height: 53px;
+    height: 62px;
   }
   .lead-table th {
     height: 52px;

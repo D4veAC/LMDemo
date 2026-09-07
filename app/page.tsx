@@ -20,85 +20,80 @@ import {
 import { Progress } from '@/components/ui/progress';
 
 type Category = 'High' | 'Medium' | 'Low';
-const leads: {
+
+type Lead = {
   id: string;
+  name: string;
   category: Category;
   confidence: number;
   probabilities: number[];
-}[] = [
-  {
-    id: 'LM-02481',
-    category: 'High',
-    confidence: 65.34,
-    probabilities: [65.34, 28.74, 5.92],
-  },
-  {
-    id: 'LM-02482',
-    category: 'High',
-    confidence: 62.18,
-    probabilities: [62.18, 26.42, 11.4],
-  },
-  {
-    id: 'LM-02483',
-    category: 'Medium',
-    confidence: 54.76,
-    probabilities: [25.1, 20.14, 54.76],
-  },
-  {
-    id: 'LM-02484',
-    category: 'Low',
-    confidence: 72.4,
-    probabilities: [18.3, 72.4, 9.3],
-  },
-  {
-    id: 'LM-02485',
-    category: 'High',
-    confidence: 68.12,
-    probabilities: [68.12, 22.46, 9.42],
-  },
-  {
-    id: 'LM-02486',
-    category: 'Medium',
-    confidence: 57.63,
-    probabilities: [29.18, 13.19, 57.63],
-  },
-  {
-    id: 'LM-02487',
-    category: 'Low',
-    confidence: 74.26,
-    probabilities: [16.82, 74.26, 8.92],
-  },
-  {
-    id: 'LM-02488',
-    category: 'High',
-    confidence: 63.91,
-    probabilities: [63.91, 27.35, 8.74],
-  },
-  {
-    id: 'LM-02489',
-    category: 'Medium',
-    confidence: 59.44,
-    probabilities: [25.72, 14.84, 59.44],
-  },
-  {
-    id: 'LM-02490',
-    category: 'Low',
-    confidence: 69.85,
-    probabilities: [20.03, 69.85, 10.12],
-  },
-  {
-    id: 'LM-02491',
-    category: 'High',
-    confidence: 66.78,
-    probabilities: [66.78, 24.06, 9.16],
-  },
-  {
-    id: 'LM-02492',
-    category: 'Medium',
-    confidence: 55.37,
-    probabilities: [31.24, 13.39, 55.37],
-  },
+};
+
+const firstNames = [
+  'Alya',
+  'Bima',
+  'Citra',
+  'Damar',
+  'Elara',
+  'Farrel',
+  'Gita',
+  'Haris',
+  'Intan',
+  'Jovan',
+  'Kirana',
+  'Luthfi',
+  'Maira',
+  'Naufal',
+  'Olivia',
+  'Pradana',
+  'Rania',
+  'Satria',
+  'Tasya',
+  'Yudha',
 ];
+
+const lastNames = [
+  'Adikara',
+  'Baskara',
+  'Cakrawala',
+  'Dirgantara',
+  'Mahendra',
+  'Nusantara',
+];
+const categories: Category[] = ['High', 'Medium', 'Low'];
+const round = (value: number) => Math.round(value * 100) / 100;
+
+const leads: Lead[] = Array.from({ length: 120 }, (_, index) => {
+  if (index === 0) {
+    return {
+      id: 'LM-02481',
+      name: 'Alya Adikara',
+      category: 'High',
+      confidence: 65.34,
+      probabilities: [65.34, 28.74, 5.92],
+    };
+  }
+
+  const category = categories[index % categories.length];
+  const confidence = round(55 + ((index * 137) % 1940) / 100);
+  const remainder = round(100 - confidence);
+  const firstShare = round(remainder * (category === 'Medium' ? 0.64 : 0.7));
+  const secondShare = round(remainder - firstShare);
+  const probabilities =
+    category === 'High'
+      ? [confidence, firstShare, secondShare]
+      : category === 'Low'
+        ? [firstShare, confidence, secondShare]
+        : [firstShare, secondShare, confidence];
+
+  return {
+    id: `LM-${String(2481 + index).padStart(5, '0')}`,
+    name: `${firstNames[index % firstNames.length]} ${lastNames[Math.floor(index / firstNames.length)]}`,
+    category,
+    confidence,
+    probabilities,
+  };
+});
 function CategoryLabel({ category }: { category: Category }) {
   return (
     <span className={`category ${category.toLowerCase()}`}>
@@ -225,7 +220,7 @@ export default function Home() {
     (l) =>
       (!queueOnly || queued.includes(l.id)) &&
       (filter === 'All' || l.category === filter) &&
-      l.id.toLowerCase().includes(search.toLowerCase()),
+      `${l.name} ${l.id}`.toLowerCase().includes(search.toLowerCase()),
   );
   const isReviewed = reviewed.includes(selected.id);
   return (
@@ -280,8 +275,8 @@ export default function Home() {
               <label className="search">
                 <Search size={20} />
                 <input
-                  aria-label="Search lead IDs"
-                  placeholder="Search lead ID…"
+                  aria-label="Search lead names or IDs"
+                  placeholder="Search name or lead ID…"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
@@ -309,7 +304,7 @@ export default function Home() {
             <Table className="lead-table">
               <TableHeader>
                 <TableRow>
-                  <TableHead>Lead ID</TableHead>
+                  <TableHead>Lead</TableHead>
                   <TableHead>
                     Predicted
                     <br />
@@ -334,7 +329,8 @@ export default function Home() {
                           setMessage('');
                         }}
                       >
-                        {l.id}
+                        <span>{l.name}</span>
+                        <small>{l.id}</small>
                       </button>
                     </TableCell>
                     <TableCell>
@@ -374,7 +370,8 @@ export default function Home() {
             <div className="detail-heading">
               <div>
                 <div className="eyebrow">SELECTED LEAD</div>
-                <h2 id="lead-title">Lead {selected.id}</h2>
+                <h2 id="lead-title">{selected.name}</h2>
+                <span className="detail-id">Lead {selected.id}</span>
               </div>
               <span className="review-status">
                 <span aria-hidden="true">{isReviewed ? '✓' : '○'}</span>

@@ -1,6 +1,6 @@
 # LeadsMapping
 
-A single-page React application for lead prioritization. The included records are anonymous local seed data. No personal information, model API, database, authentication, admission decisions, or feature-level explanations are included.
+A single-page React application for lead prioritization. It includes 120 anonymous dummy leads. No personal information, model API, database, authentication, admission decisions, or feature-level explanations are included.
 
 ## Run locally
 

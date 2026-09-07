@@ -23,3 +23,5 @@ Search, category filters, record selection, and review buttons run in the browse
 This app is configured for Sites deployment. Predictions use local seed records until a machine-learning service is connected.
 
 The local `.openai/hosting.json` file is optional deployment metadata and is ignored by Git. The application build does not import or require it.
+
+Vercel builds the application as a static export and serves `dist/client` according to `vercel.json`.

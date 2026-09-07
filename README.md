@@ -21,3 +21,5 @@ Open the local URL printed by the server. `npm run build` validates the producti
 Search, category filters, record selection, and review buttons run in the browser. Review and call-queue changes are saved in localStorage on this browser; they are not shared between users or devices. Clear site storage to restore the screenshot state. No actions make a phone call or send data anywhere.
 
 This app is configured for Sites deployment. Predictions use local seed records until a machine-learning service is connected.
+
+The local `.openai/hosting.json` file is optional deployment metadata and is ignored by Git. The application build does not import or require it.

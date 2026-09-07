@@ -50,6 +50,54 @@ const leads: {
     confidence: 72.4,
     probabilities: [18.3, 72.4, 9.3],
   },
+  {
+    id: 'LM-02485',
+    category: 'High',
+    confidence: 68.12,
+    probabilities: [68.12, 22.46, 9.42],
+  },
+  {
+    id: 'LM-02486',
+    category: 'Medium',
+    confidence: 57.63,
+    probabilities: [29.18, 13.19, 57.63],
+  },
+  {
+    id: 'LM-02487',
+    category: 'Low',
+    confidence: 74.26,
+    probabilities: [16.82, 74.26, 8.92],
+  },
+  {
+    id: 'LM-02488',
+    category: 'High',
+    confidence: 63.91,
+    probabilities: [63.91, 27.35, 8.74],
+  },
+  {
+    id: 'LM-02489',
+    category: 'Medium',
+    confidence: 59.44,
+    probabilities: [25.72, 14.84, 59.44],
+  },
+  {
+    id: 'LM-02490',
+    category: 'Low',
+    confidence: 69.85,
+    probabilities: [20.03, 69.85, 10.12],
+  },
+  {
+    id: 'LM-02491',
+    category: 'High',
+    confidence: 66.78,
+    probabilities: [66.78, 24.06, 9.16],
+  },
+  {
+    id: 'LM-02492',
+    category: 'Medium',
+    confidence: 55.37,
+    probabilities: [31.24, 13.39, 55.37],
+  },
 ];
 function CategoryLabel({ category }: { category: Category }) {
   return (
@@ -142,9 +190,9 @@ export default function Home() {
       Promise.resolve(
         context.registerTool(
           {
-            name: 'list_synthetic_leads',
+            name: 'list_leads',
             description:
-              'Read the synthetic prospects and their current review and call queue status.',
+              'Read the leads and their current review and call queue status.',
             inputSchema: {
               type: 'object',
               properties: {},
@@ -188,10 +236,8 @@ export default function Home() {
             <ListFilter size={25} />
           </div>
           <div>
-            <div className="brand-name">
-              LeadsMapping <span className="concept-badge">Conceptual UI</span>
-            </div>
-            <p>Lead Prioritization Prototype</p>
+            <div className="brand-name">LeadsMapping</div>
+            <p>Lead Prioritization</p>
           </div>
         </div>
         <div className="queue-controls">
@@ -230,12 +276,11 @@ export default function Home() {
                   {queueOnly ? 'Call Queue' : 'Lead Queue'}{' '}
                   <span className="count">{visible.length}</span>
                 </h2>
-                <span className="synthetic">Synthetic records</span>
               </div>
               <label className="search">
                 <Search size={20} />
                 <input
-                  aria-label="Search synthetic lead IDs"
+                  aria-label="Search lead IDs"
                   placeholder="Search lead ID…"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -317,37 +362,9 @@ export default function Home() {
               <p className="empty">
                 {queueOnly
                   ? 'No queued leads match. Add a lead from the full queue.'
-                  : 'No synthetic leads match your search.'}
+                  : 'No leads match your search.'}
               </p>
             )}
-            <div className="queue-bottom">
-              <span>{visible.length} synthetic leads</span>
-              <span>Local demo data</span>
-            </div>
-            <div data-od-id="model-context" className="model-context">
-              <div className="eyebrow">MODEL CONTEXT</div>
-              <h3>Keep High-category prospects in reach.</h3>
-              <p>
-                High recall is the priority. Medium leads remain in the standard
-                cold-calling process.
-              </p>
-              <div className="metrics">
-                <div>
-                  <strong>High</strong>
-                  <span>
-                    Recall <b>0.88</b>
-                    <i>·</i> Precision <b>0.66</b>
-                  </span>
-                </div>
-                <div>
-                  <strong>Medium</strong>
-                  <span>
-                    Recall <b>0.18</b>
-                    <i>·</i> Precision <b>0.99</b>
-                  </span>
-                </div>
-              </div>
-            </div>
           </section>
           <section
             data-od-id="lead-detail"
@@ -356,7 +373,7 @@ export default function Home() {
           >
             <div className="detail-heading">
               <div>
-                <div className="eyebrow">SELECTED PROSPECT · SYNTHETIC</div>
+                <div className="eyebrow">SELECTED LEAD</div>
                 <h2 id="lead-title">Lead {selected.id}</h2>
               </div>
               <span className="review-status">
@@ -458,13 +475,6 @@ export default function Home() {
           </section>
         </div>
       </main>
-      <footer data-od-id="prototype-disclosure">
-        <span>
-          Conceptual interface — LeadsMapping remains in development. All
-          displayed data is synthetic.
-        </span>
-        <span>PROTOTYPE / 01</span>
-      </footer>
       {message && (
         <div className="toast" role="status">
           {message}
